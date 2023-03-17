@@ -1,0 +1,20 @@
+name: Update description
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - README.md
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+    -
+      name: Update docker description
+      uses: peter-evans/dockerhub-description@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        repository: hieupth/certbot
