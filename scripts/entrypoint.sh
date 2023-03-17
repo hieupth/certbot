@@ -17,6 +17,7 @@ get_certificate() {
     --email $EMAIL -d $CERT_DOMAINS $args
     ec=$?
     echo "certbot exit code $ec"
+    local d=$(echo $d | sed 's/^*.//')
     if [ $ec -eq 0 ]
     then
         if [ $CONCAT = true ]
