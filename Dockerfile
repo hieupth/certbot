@@ -10,7 +10,7 @@ RUN apk add --no-cache --virtual .build-deps linux-headers gcc musl-dev && \
     pip install --no-cache-dir certbot && \
     apk del .build-deps && \
     mkdir /scripts && \
-    pip install --no-cache-dir certbot-dns-cloudflare
+    pip install --no-cache-dir cryptography certbot-dns-cloudflare
 
 COPY ./scripts/ /scripts
 RUN chmod +x /scripts/*.sh
