@@ -1,4 +1,4 @@
-name: Build images
+name: Build base images
 
 on:
   workflow_dispatch:
@@ -7,8 +7,7 @@ on:
       - 'main'
       - 'dev'
     paths:
-      - entrypoint.sh
-      - Dockerfile
+      - images/base/*
 
 jobs:
   build:
@@ -36,6 +35,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          file: Dockerfile
+          context: images/base
           platforms: linux/amd64,linux/arm64
           tags: hieupth/certbot:latest
