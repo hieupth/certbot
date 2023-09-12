@@ -1,16 +1,16 @@
 name: Update description
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - 'main'
     paths:
       - README.md
   workflow_run:
-    workflows: ["Build base image", "Build encryption image"]
-      types:
-        - completed
+    workflows: ["Build base images", "Build encryption images"]
+    types:
+      - completed
+  workflow_dispatch:
 
 jobs:
   docker:

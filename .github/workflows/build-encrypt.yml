@@ -1,4 +1,4 @@
-name: Build ansible vault images
+name: Build encryption images
 
 on:
   workflow_dispatch:
@@ -34,6 +34,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          context: images/ansvault
+          context: images/encrypt
           platforms: linux/amd64,linux/arm64
-          tags: hieupth/certbot:ansvault
+          tags: hieupth/certbot:encrypt
