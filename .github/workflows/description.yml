@@ -7,6 +7,10 @@ on:
       - 'main'
     paths:
       - README.md
+  workflow_run:
+    workflows: ["Build base image", "Build encryption image"]
+      types:
+        - completed
 
 jobs:
   docker:
