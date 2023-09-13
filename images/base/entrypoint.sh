@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Running certbot for domains $DOMAINS"
+echo "Running certbot for domains $CERTBOT_DOMAINS"
 
 get_certificate() {
     # Gets the certificate for the domain(s) CERT_DOMAINS (a comma separated list)
@@ -14,7 +14,7 @@ get_certificate() {
     echo "Getting certificate for $CERT_DOMAINS"
     certbot certonly --agree-tos --renew-by-default -n \
     --text --server https://acme-v02.api.letsencrypt.org/directory \
-    --email $EMAIL -d $CERT_DOMAINS $args
+    --email $CERTBOT_EMAIL -d $CERT_DOMAINS $args
     ec=$?
     echo "certbot exit code $ec"
     local d=$(echo $d | sed 's/^*.//')
@@ -37,11 +37,11 @@ get_certificate() {
 # Build arguments string for certbot command.
 args=""
 # Webroot mode.
-if ! [[ -z $WEBROOT ]]; then
-    args="--webroot -w $WEBROOT"
+if ! [[ -z $CERTBOT_WEBROOT ]]; then
+    args="--webroot -w $CERTBOT_WEBROOT"
 # Cloudflare mode.
-elif ! [[ -z $CLOUDFLARE ]]; then
-    echo "dns_cloudflare_api_token = $CLOUDFLARE" > cloudflare.ini
+elif ! [[ -z $CERTBOT_CLOUDFLARE ]]; then
+    echo "dns_cloudflare_api_token = $CERTBOT_CLOUDFLARE" > cloudflare.ini
     chmod 600 cloudflare.ini
     args="--dns-cloudflare --dns-cloudflare-credentials cloudflare.ini --dns-cloudflare-propagation-seconds 60"
 # Otherwise, use standalone mode.
@@ -49,15 +49,15 @@ else
     args="--standalone --preferred-challenges http-01"
 fi
 # Enable debug (dry-run) mode.
-if [ $DEBUG = true ]
+if [ $CERTBOT_DEBUG = true ]
 then
     args=$args" --debug --dry-run"
 fi
 # In case of SEPARATE is TRUE,
 # Domains will be separated and certificates will be generated for each of them.
-if [ $SEPARATE = true ]
+if [ $CERTBOT_SEPARATE = true ]
 then
-    for d in $DOMAINS
+    for d in $CERTBOT_DOMAINS
     do
         CERT_DOMAINS=$d
         get_certificate
@@ -65,6 +65,6 @@ then
 # Otherwise,
 # One certificate for all domains will be generated.
 else
-    CERT_DOMAINS=${DOMAINS// /,}
+    CERT_DOMAINS=${CERTBOT_DOMAINS// /,}
     get_certificate
 fi
