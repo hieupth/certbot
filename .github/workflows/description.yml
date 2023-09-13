@@ -7,7 +7,7 @@ on:
     paths:
       - README.md
   workflow_run:
-    workflows: ["Build base images", "Build encryption images"]
+    workflows: ["Build base images", "Build encryption images", "Build decryption images"]
     types:
       - completed
   workflow_dispatch:
