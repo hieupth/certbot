@@ -24,11 +24,11 @@ jobs:
         name: Obtain certs
         run: |
           docker run -v ./certs:/certs \
-            -e DOMAINS=${{ matrix.domains }} \
-            -e EMAIL=${{ secrets.EMAIL }} \
-            -e CLOUDFLARE=${{ secrets.CLOUDFLARE }} \
-            -e PASSWORD=${{ secrets.PASSWORD }} \
-            hieupth/certbot:ansvault
+              -e DOMAINS=${{ matrix.domains }} \
+              -e EMAIL=${{ secrets.EMAIL }} \
+              -e CLOUDFLARE_TOKEN=${{ secrets.CLOUDFLARE_TOKEN }} \
+              -e ENCRYPT_PASS=${{ secrets.ENCRYPT_PASS }} \
+            hieupth/certbot
       -
         name: Commit and push
         run: |

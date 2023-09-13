@@ -1,4 +1,5 @@
 FROM python:3-alpine
+LABEL maintainer="hieupth <64821726+hieupth@users.noreply.github.com>"
 
 RUN apk update && \
     apk upgrade && \
@@ -7,7 +8,8 @@ RUN apk update && \
     apk add --no-cache libffi-dev && \
     pip install --no-cache-dir ansible-vault && \
     apk del .build-deps
-# Overwrite entrypoint.
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
+
+COPY fetch.sh /usr/local/bin/fetch-ssl.sh
+RUN chmod +x /usr/local/bin/fetch-ssl.sh
+
+ENTRYPOINT [ "/usr/local/bin/fetch-ssl.sh" ]

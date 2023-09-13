@@ -1,4 +1,4 @@
-name: Build encryption images
+name: Build fetch
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches:
       - 'main'
     paths:
-      - images/encrypt/*
+      - fetch.*
 
 jobs:
   build:
@@ -34,6 +34,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          context: images/encrypt
+          file: fetch.Dockerfile
           platforms: linux/amd64,linux/arm64
-          tags: hieupth/certbot:encrypt
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/certbot:fetch

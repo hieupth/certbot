@@ -7,7 +7,7 @@ on:
     paths:
       - README.md
   workflow_run:
-    workflows: ["Build base images", "Build encryption images", "Build decryption images"]
+    workflows: ["Build obtain", "Build fetch"]
     types:
       - completed
   workflow_dispatch:
@@ -25,4 +25,4 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-        repository: hieupth/certbot
+        repository: ${{ secrets.DOCKERHUB_USERNAME }}/certbot
