@@ -49,6 +49,11 @@ else
     cd /
     git clone ${CERTBOT_SSL_GIT_REMOTE} /ssl 
   fi
+  if ! [[ -z $CERTBOT_SSL_GIT_COMMIT ]]
+  then
+    cd /ssl
+    git checkout $CERTBOT_SSL_GIT_COMMIT
+  fi
 fi
 
 for d in $CERTBOT_DOMAIN
