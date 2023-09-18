@@ -37,3 +37,20 @@ jobs:
           file: fetch.Dockerfile
           platforms: linux/amd64,linux/arm64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/certbot:fetch
+  trigger:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: FRP
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GHA_WORKFLOW_TOKEN }}
+          script: |
+            const result = await github.rest.actions.createWorkflowDispatch({
+              owner: 'hieupth',
+              repo: 'frp',
+              workflow_id: 'build.yml',
+              ref: 'main'
+            })
+            console.log(result)
