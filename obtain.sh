@@ -29,10 +29,10 @@ get_certificate() {
         mkdir -p /certs/$d/ && cp /etc/letsencrypt/live/$d/chain.pem /certs/$d/chain.pem
         mkdir -p /certs/$d/ && cp /etc/letsencrypt/live/$d/concat.pem /certs/$d/concat.pem
         # Encrypt all certs.
-        if ! [[ -z "$CERTBOT_ENCRYPT_PASS" ]]
+        if ! [[ -z "$CERTBOT_ENCRYPT_PASS_FILE" ]]
         then
             echo "Encrypt $d"
-            ansible-vault encrypt --vault-password-file /encryptpass \
+            ansible-vault encrypt --vault-password-file $CERTBOT_ENCRYPT_PASS_FILE \
                 /certs/$d/fullchain.pem \
                 /certs/$d/privkey.pem \
                 /certs/$d/cert.pem \
@@ -46,10 +46,9 @@ get_certificate() {
 }
 
 # Make encrytion password file for ansible-vault.
-if ! [[ -z $CERTBOT_ENCRYPT_PASS ]]
+if ! [[ -z $CERTBOT_ENCRYPT_PASS_FILE ]]
 then
     echo "Certs encryption is enabled"
-    echo "$CERTBOT_ENCRYPT_PASS" > /encryptpass
 else
     echo "Certs encryption is disabled"
 fi

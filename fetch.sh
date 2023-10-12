@@ -12,10 +12,10 @@ get_certificate() {
   # - args
   local d=${CERT_DOMAINS//,*/} # read first domain
   # Ansible decrypt certs.
-  if ! [[ -z "$CERTBOT_ENCRYPT_PASS" ]]
+  if ! [[ -z "$CERTBOT_ENCRYPT_PASS_FILE" ]]
   then
     echo "Decrypt $d"
-    ansible-vault decrypt --vault-password-file /encryptpass \
+    ansible-vault decrypt --vault-password-file $CERTBOT_ENCRYPT_PASS_FILE \
       /ssl/certs/$d/fullchain.pem \
       /ssl/certs/$d/privkey.pem \
       /ssl/certs/$d/cert.pem \
@@ -27,10 +27,9 @@ get_certificate() {
 }
 
 # Make encrytion password file for ansible-vault.
-if ! [[ -z $CERTBOT_ENCRYPT_PASS ]]
+if ! [[ -z $CERTBOT_ENCRYPT_PASS_FILE ]]
 then
     echo "Certs encryption is enabled"
-    echo "$CERTBOT_ENCRYPT_PASS" > /encryptpass
 else
     echo "Certs encryption is disabled"
 fi

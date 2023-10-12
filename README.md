@@ -12,7 +12,7 @@ This base image will obtain self-signed certs and write them to '/certs' directo
 * **CERTBOT_WEBROOT**: set this variable to the webroot path if you want to use webroot challenge.
 * **CERTBOT_DEBUG**: run certbot in debug mode (dry-run) or not (default is FALSE).
 * **CERTBOT_SEPARATE**: whether you want one certificate per a domain or one certificate valid for all domains (default is TRUE).
-* **CERTBOT_ENCRYPT_PASS**: password to encrypt certs using ansible-vault.
+* **CERTBOT_ENCRYPT_PASS_FILE**: file of password to encrypt certs using ansible-vault.
 ## Use Github Actions to manage certs
 
 ## License
