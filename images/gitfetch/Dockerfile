@@ -9,7 +9,7 @@ RUN apk update && \
     pip install --no-cache-dir ansible-vault && \
     apk del .build-deps
 
-COPY fetch.sh /usr/local/bin/fetch-ssl.sh
-RUN chmod +x /usr/local/bin/fetch-ssl.sh
+COPY gitfetch.sh /usr/local/bin/gitfetch.sh
+RUN chmod +x /usr/local/bin/gitfetch.sh
 
 ENTRYPOINT [ "/usr/local/bin/fetch-ssl.sh" ]
