@@ -8,17 +8,17 @@ get_certificate() {
     --email $EMAIL -d $domain $args
   ec=$?
   echo "certbot exit code $ec"
-  if [ $ec -eq 0 ]
-  then
-    if [ $CONCAT = true ]; then
-      # Concat the full chain with the private key (e.g. for haproxy)
-      mkdir -p /certs/$d/ && cat /etc/letsencrypt/live/$d/fullchain.pem /etc/letsencrypt/live/$d/privkey.pem > /certs/$d/concat.pem
-    fi
+  local d=$(echo $d | sed 's/^*.//')
+  if [ $ec -eq 0 ]; then
     # Keep full chain and private key in separate files (e.g. for nginx and apache)
     mkdir -p /certs/$d/ && cp /etc/letsencrypt/live/$d/fullchain.pem /certs/$d/fullchain.pem
     mkdir -p /certs/$d/ && cp /etc/letsencrypt/live/$d/privkey.pem /certs/$d/private.pem
     mkdir -p /certs/$d/ && cp /etc/letsencrypt/live/$d/cert.pem /certs/$d/cert.pem
     mkdir -p /certs/$d/ && cp /etc/letsencrypt/live/$d/chain.pem /certs/$d/chain.pem
+    # Concat the full chain with the private key (e.g. for haproxy)
+    if [ $CONCAT = true ]; then
+      cat /etc/letsencrypt/live/$d/fullchain.pem /etc/letsencrypt/live/$d/privkey.pem > /certs/$d/concat.pem
+    fi
     echo "Certificate obtained for $domain! Your new certificate - named $d - is in /certs"
   else
     echo "Cerbot failed for $domain. Check the logs for details."
