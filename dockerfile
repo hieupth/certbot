@@ -10,5 +10,5 @@ RUN apk add --no-cache --virtual .build-deps linux-headers gcc musl-dev && \
     pip install --no-cache-dir certbot cryptography certbot-dns-cloudflare && \
     apk del .build-deps
 
-ADD entrypoint.sh entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+ADD ./entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
